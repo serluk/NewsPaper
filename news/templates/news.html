@@ -1,0 +1,41 @@
+{% extends 'flatpages/default.html' %}
+
+<!-- Название у нас будет proudcts -->
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+    <h1>Все новости</h1>
+    <hr>
+      {% if news %}
+      <table>
+          <tr>
+            <td>
+              Заголовок
+            </td>
+            <td>
+              Текст
+            </td>
+           <td>
+              Дата
+            </td>
+          </tr>
+       {% for article in news %}
+          <tr>
+            <td>
+              {{ article.title }}
+            </td>
+              <td>
+                 {{ article.add_time }}
+              </td>
+              <td>
+                  {{ article.text|truncatechars:20 }}
+              </td>
+          </tr>
+       {% endfor %}
+      </table>
+      {% else %}
+         <h2>Новостей нет!</h2>
+      {% endif %}
+{% endblock content %}
