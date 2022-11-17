@@ -7,5 +7,9 @@ News
  
 <!-- В контенте на странице мы выводим сам товар, айди которого было передано в адрес -->
 {% block content %}
-<h1>{{ article }}</h1>
+<h1>{{ article }}</h1><hr>
+<p>{{ article.text }}</p>
+
+<p>{{ article.add_time|date:'d-M-Y H:m' }}</p>
+
 {% endblock content %}
