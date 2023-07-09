@@ -10,7 +10,10 @@ News
     <hr>
       {% if news %}
       <table>
+          <thead>
           <tr>
+              <td></td>
+              <td></td>
             <td>
               Заголовок
             </td>
@@ -21,20 +24,47 @@ News
               Дата
             </td>
           </tr>
+          </thead>
        {% for article in news %}
           <tr>
+              <td>
+                  <a href="{% url 'post_delete' article.id %}">Удалить</a>
+                  <a href="{% url 'post_update' article.id %}">Редактировать</a>
+              </td>
             <td>
               {{ article.title }}
             </td>
               <td>
-                 {{ article.add_time }}
+                  {{ article.text|truncatechars:20 }}
               </td>
               <td>
-                  {{ article.text|truncatechars:20 }}
+                  {{ article.add_time }}
               </td>
           </tr>
        {% endfor %}
       </table>
+
+  {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">&#10094;</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a>{{ num }}</a>
+            {% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">&#10095;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+    {% endif %}
+
+      <a href="{% url 'post_create' %}">Add new article</a>
       {% else %}
          <h2>Новостей нет!</h2>
       {% endif %}
